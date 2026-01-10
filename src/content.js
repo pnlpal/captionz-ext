@@ -32,7 +32,7 @@
             });
           });
       } catch (err) {
-        console.error("[Captionz] Error cloning/parsing response", err);
+        console.error("[Captionz-ext] Error cloning/parsing response", err);
       }
     }
 
@@ -98,7 +98,7 @@
       url.includes("/api/timedtext") ||
       url.includes("/youtubei/v1/get_transcript")
     ) {
-      console.log("[Captionz] Intercepted captions:", type, url);
+      console.log("[Captionz-ext] Intercepted captions:", type, url);
 
       // Ensure we have video info
       if (!cachedVideoInfo) {
@@ -167,7 +167,13 @@
         trackKind,
       };
 
-      console.log("[Captionz] Posting caption event:", captionEvent);
+      console.log(
+        "[Captionz-ext] Posting caption event to window.parent:",
+        captionEvent
+      );
+      console.log(
+        `[Captionz-ext] title: ${cachedVideoInfo?.title}, language: ${languageName} (${languageCode})`
+      );
       window.parent.postMessage(
         {
           source: "CAPTIONZ_EXTENSION",
@@ -211,7 +217,7 @@
       captionTracks: captionTracks,
     };
 
-    console.log("[Captionz] Updated cached video info:", cachedVideoInfo);
+    console.log("[Captionz-ext] Updated cached video info:", cachedVideoInfo);
   }
 
   function extractVideoInfoFromDOM() {
@@ -225,7 +231,7 @@
           return; // Success
         }
       } catch (e) {
-        console.error("[Captionz] Error calling getPlayerResponse:", e);
+        console.error("[Captionz-ext] Error calling getPlayerResponse:", e);
       }
     }
 
@@ -271,11 +277,11 @@
       };
 
       console.log(
-        "[Captionz] Updated cached video info from DOM:",
+        "[Captionz-ext] Updated cached video info from DOM:",
         cachedVideoInfo
       );
     } catch (e) {
-      console.error("[Captionz] DOM scraping failed", e);
+      console.error("[Captionz-ext] DOM scraping failed", e);
     }
   }
 
@@ -284,5 +290,5 @@
   // Also try immediately
   extractVideoInfoFromDOM();
 
-  console.log("[Captionz] Main world script loaded. fetch() intercepted.");
+  console.log("[Captionz-ext] Main world script loaded. fetch() intercepted.");
 })();
