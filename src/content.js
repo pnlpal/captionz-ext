@@ -290,5 +290,96 @@
   // Also try immediately
   extractVideoInfoFromDOM();
 
+  // --- 4. Listen for messages from Captionz App ---
+  window.addEventListener("message", function (event) {
+    if (
+      event.data &&
+      event.data.source === "CAPTIONZ_APP" &&
+      event.data.command === "openAutoTranslate"
+    ) {
+      openAutoTranslatePanel();
+    }
+  });
+
+  function openAutoTranslatePanel() {
+    const settingsBtn = document.querySelector(".ytp-settings-button");
+    if (settingsBtn) {
+      settingsBtn.click();
+      setTimeout(() => {
+        const menuItems = document.querySelectorAll(".ytp-menuitem");
+        let subtitlesClicked = false;
+        for (const item of menuItems) {
+          const label = item.querySelector(".ytp-menuitem-label");
+          if (
+            label &&
+            (label.textContent.includes("Subtitles") ||
+              label.textContent.includes("CC"))
+          ) {
+            item.click();
+            subtitlesClicked = true;
+            break;
+          }
+        }
+
+        if (subtitlesClicked) {
+          showSignal("Please select 'Auto-translate' in the menu.");
+          setTimeout(() => {
+            const subMenuItems = document.querySelectorAll(".ytp-menuitem");
+            for (const item of subMenuItems) {
+              if (item.textContent.includes("Auto-translate")) {
+                item.style.outline = "2px solid green"; // Highlight
+                item.click();
+                showSignal(
+                  "Please select your desired language for Auto-translate."
+                );
+                break;
+              }
+            }
+          }, 300);
+        } else {
+          showSignal(
+            "Please play the video and enable captions first.",
+            "goldenrod",
+            5
+          );
+          settingsBtn.click(); // Close settings
+        }
+      }, 300);
+    } else {
+      showSignal(
+        "Please enable captions in the YouTube player manually.",
+        "goldenrod",
+        5
+      );
+    }
+  }
+
+  function showSignal(msg, textColor = "#fff", seconds = 3) {
+    const div = document.createElement("div");
+    div.innerText = msg;
+    div.style.position = "fixed";
+    div.style.top = "25%";
+    div.style.left = "50%";
+    div.style.transform = "translateX(-50%)";
+    div.style.backgroundColor = "rgba(0,0,0,0.9)";
+    div.style.color = textColor;
+    div.style.padding = "25px 40px";
+    div.style.borderRadius = "15px";
+    div.style.zIndex = "2147483647";
+    div.style.fontSize = "28px";
+    div.style.fontWeight = "bold";
+    div.style.fontFamily = "sans-serif";
+    div.style.textAlign = "center";
+    div.style.boxShadow = "0 5px 25px rgba(0,0,0,0.5)";
+    div.style.border = "2px solid rgba(255,255,255,0.2)";
+    div.style.pointerEvents = "none";
+    div.style.transition = "opacity 0.5s";
+    document.body.appendChild(div);
+    setTimeout(() => {
+      div.style.opacity = "0";
+      setTimeout(() => div.remove(), 500);
+    }, seconds * 1000);
+  }
+
   console.log("[Captionz-ext] Main world script loaded. fetch() intercepted.");
 })();
