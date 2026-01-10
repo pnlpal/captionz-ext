@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Captionz",
+  "version": "1.0",
+  "description": "Intercepts YouTube captions using window.fetch override",
+  "permissions": ["scripting"],
+  "host_permissions": ["*://*.youtube.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*", "http://localhost:4100/*"],
+      "js": ["src/content.js"],
+      "run_at": "document_start",
+      "world": "MAIN",
+      "all_frames": true
+    }
+  ]
+}
