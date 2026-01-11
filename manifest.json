@@ -3,8 +3,12 @@
   "name": "Captionz",
   "version": "1.0",
   "description": "Intercepts YouTube captions using window.fetch override",
-  "permissions": ["scripting"],
+  "permissions": ["tabs", "contextMenus", "storage", "scripting"],
   "host_permissions": ["*://*.youtube.com/*"],
+  "background": {
+    "service_worker": "src/background/main.js",
+    "type": "module"
+  },
   "content_scripts": [
     {
       "matches": ["*://*.youtube.com/*", "http://localhost:4100/*"],
@@ -12,6 +16,10 @@
       "run_at": "document_start",
       "world": "MAIN",
       "all_frames": true
+    },
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["src/utils.js", "src/inject-ytb.js"]
     }
   ]
 }
