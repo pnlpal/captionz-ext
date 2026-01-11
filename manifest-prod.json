@@ -10,7 +10,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.youtube.com/*", "http://localhost:4100/*"],
+      "matches": ["*://*.youtube.com/*", "https://pnl.dev/*"],
       "js": ["src/content.js"],
       "run_at": "document_start",
       "world": "MAIN",
