@@ -1,6 +1,13 @@
+import { openYtbOnCaptionz } from "./captionz.js";
+
 export default {
   handler: (info, tab) => {
     if (info.menuItemId === "watch on captionz") {
+      const link = info.linkUrl;
+      // https://www.youtube.com/watch?v=xxxxx
+      if (link && link.includes("youtube.com/watch") && link.includes("v=")) {
+        openYtbOnCaptionz(link);
+      }
     }
   },
   createLookupItem: () => {

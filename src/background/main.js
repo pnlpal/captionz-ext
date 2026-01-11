@@ -5,6 +5,9 @@ import "./captionz.js";
 
 const initPromises = (async function () {
   await setting.init();
+  if (!setting.getValue("disableContextMenuOnYtb", false)) {
+    contextMenu.createLookupItem();
+  }
   globalThis.setting = setting;
 })();
 

@@ -10,3 +10,5 @@ message.on("open video on captionz", ({ link }) => {
     openYtbOnCaptionz(link);
   }
 });
+
+export { openYtbOnCaptionz };
