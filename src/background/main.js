@@ -11,14 +11,14 @@ const initPromises = (async function () {
   globalThis.setting = setting;
 })();
 
-// chrome.runtime.onInstalled.addListener(async function (details) {
-//   if ([chrome.runtime.OnInstalledReason.INSTALL].includes(details.reason)) {
-//     await initPromises;
-//     chrome.tabs.create({
-//       url: chrome.runtime.getURL("share.html"),
-//     });
-//   }
-// });
+chrome.runtime.onInstalled.addListener(async function (details) {
+  if ([chrome.runtime.OnInstalledReason.INSTALL].includes(details.reason)) {
+    await initPromises;
+    chrome.tabs.create({
+      url: "https://pnl.dev/captionz?welcome=true",
+    });
+  }
+});
 
 chrome.runtime.onMessage.addListener(function (...args) {
   initPromises.then(() => {
