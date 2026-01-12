@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Captionz",
   "version": "1.0",
-  "description": "Intercepts YouTube captions using window.fetch override",
+  "description": "Watch YouTube with Dual Subtitles, A-B Looping, community notes and more.",
   "permissions": ["tabs", "contextMenus", "storage"],
   "background": {
     "service_worker": "src/background/main.js",
@@ -20,5 +20,10 @@
       "matches": ["*://*.youtube.com/*"],
       "js": ["src/utils.js", "src/inject-ytb.js"]
     }
-  ]
+  ],
+  "icons": {
+    "64": "assets/library-64.png",
+    "128": "assets/library-128.png",
+    "256": "assets/library-256.png"
+  }
 }
