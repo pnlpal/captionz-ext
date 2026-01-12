@@ -34,4 +34,6 @@ chrome.contextMenus.onClicked.addListener(async function (info, tab) {
   contextMenu.handler(info, tab);
 });
 
-// chrome.runtime.setUninstallURL("https://forms.gle/9Jmz1d7PtxqMzSNq5");
+chrome.runtime.setUninstallURL(
+  "https://docs.google.com/forms/d/e/1FAIpQLSefvnQypm4gtmdSy2UlfRBC8ljyNwJMOxVoCg3N8NbFGPoyYw/viewform"
+);
