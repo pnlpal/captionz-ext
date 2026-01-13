@@ -28,7 +28,7 @@
 
 ## Screenshots
 
-![Promo Banner](screenshots/promo-small)
+![Promo Banner](screenshots/promo-small.png)
 ![Interface 1](screenshots/s1.png)
 ![Interface 2](screenshots/s2.png)
 
