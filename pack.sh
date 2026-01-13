@@ -7,6 +7,7 @@ rm -f ${name}
 rm -rf build
 mkdir -p build
 cp -r src build/src
+cp -r assets build/assets
 cp manifest-prod.json build/manifest.json
 cd build
 

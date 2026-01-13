@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Captionz",
+  "name": "Captionz - YouTube Dual Subtitles & A-B Repeat",
   "version": "1.0",
-  "description": "Intercepts YouTube captions using window.fetch override",
+  "description": "YouTube Dual Subtitles, A-B Looping and community notes for language learners.",
   "permissions": ["tabs", "contextMenus", "storage"],
   "background": {
     "service_worker": "src/background/main.js",
@@ -20,5 +20,14 @@
       "matches": ["*://*.youtube.com/*"],
       "js": ["src/utils.js", "src/inject-ytb.js"]
     }
-  ]
+  ],
+  "action": {
+    "default_title": "Captionz - YouTube Dual Subtitles & A-B Repeat"
+  },
+  "icons": {
+    "16": "assets/library-16.png",
+    "32": "assets/library-32.png",
+    "48": "assets/library-48.png",
+    "128": "assets/library-128.png"
+  }
 }
