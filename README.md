@@ -52,3 +52,7 @@ BROWSER=Edge ./pack.sh
 
 - **Main App**: [pnl.dev/captionz](https://pnl.dev/captionz)
 - **Discord**: [Join our community](https://discord.gg/sazRac4kSa)
+
+## Privacy Policy
+
+[See here](privacy.md)
