@@ -32,7 +32,10 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "captionz@pnl.dev"
+      "id": "captionz@pnl.dev",
+      "data_collection_permissions": {
+        "required": ["browsingActivity", "websiteContent"]
+      }
     }
   }
 }
