@@ -302,17 +302,24 @@
   });
 
   function openAutoTranslatePanel() {
-    const settingsBtn = document.querySelector(".ytp-settings-button");
+    const settingsBtn = document.querySelector(
+      ".ytp-settings-button, .player-settings-icon"
+    );
     if (settingsBtn) {
       settingsBtn.click();
       setTimeout(() => {
-        const menuItems = document.querySelectorAll(".ytp-menuitem");
+        const menuItems = document.querySelectorAll(
+          ".ytp-menuitem, .yt-list-item-view-model__container"
+        );
         let subtitlesClicked = false;
         for (const item of menuItems) {
-          const label = item.querySelector(".ytp-menuitem-label");
+          const label = item.querySelector(
+            ".ytp-menuitem-label, .yt-list-item-view-model__text-wrapper"
+          );
           if (
             label &&
             (label.textContent.includes("Subtitles") ||
+              label.textContent.includes("Captions") ||
               label.textContent.includes("CC"))
           ) {
             item.click();
@@ -324,7 +331,9 @@
         if (subtitlesClicked) {
           showSignal("Please select 'Auto-translate' in the menu.");
           setTimeout(() => {
-            const subMenuItems = document.querySelectorAll(".ytp-menuitem");
+            const subMenuItems = document.querySelectorAll(
+              ".ytp-menuitem, .yt-list-item-view-model__container"
+            );
             for (const item of subMenuItems) {
               if (item.textContent.includes("Auto-translate")) {
                 item.style.outline = "2px solid green"; // Highlight
