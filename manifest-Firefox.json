@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Captionz - YouTube Dual Subtitles & A-B Repeat",
+  "name": "Captionz: YouTube Dual Subtitles & A-B Repeat",
   "version": "1.0",
   "description": "YouTube Dual Subtitles, A-B Looping and community notes for language learners.",
   "permissions": ["tabs", "contextMenus", "storage"],
@@ -29,5 +29,10 @@
     "32": "assets/library-32.png",
     "48": "assets/library-48.png",
     "128": "assets/library-128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "captionz@pnl.dev"
+    }
   }
 }
