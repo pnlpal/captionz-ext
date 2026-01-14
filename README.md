@@ -14,11 +14,9 @@
 ## Install
 
 ### Store Links
-> *Status: Pending Review*
-
-- **Chrome**: Stay tuned.
-- **Firefox**: Stay tuned.
-- **Edge**: Stay tuned.
+- **Chrome**: [Chrome Web Store](https://chromewebstore.google.com/detail/captionz-youtube-dual-sub/epmnpaienfgfkbbjeccpdcfajcppiphj).
+- **Firefox**: *Status: Pending Review.* Stay tuned. [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/captionz)
+- **Edge**: *Status: Pending Review.* Stay tuned. [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/ahlpbaaifbkaffdcebjbefamphbppjjb)
 
 ### Manual Installation
 1. Download the source code.
