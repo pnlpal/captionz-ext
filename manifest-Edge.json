@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Captionz - YouTube Dual Subtitles & A-B Repeat",
+  "version": "1.0",
+  "description": "YouTube Dual Subtitles, A-B Looping and community notes for language learners.",
+  "permissions": ["tabs", "contextMenus", "storage"],
+  "background": {
+    "service_worker": "src/background/main.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*", "https://pnl.dev/*"],
+      "js": ["src/content.js"],
+      "run_at": "document_start",
+      "world": "MAIN",
+      "all_frames": true
+    },
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["src/utils.js", "src/inject-ytb.js"]
+    }
+  ],
+  "action": {
+    "default_title": "Captionz - YouTube Dual Subtitles & A-B Repeat"
+  },
+  "icons": {
+    "16": "assets/library-16.png",
+    "32": "assets/library-32.png",
+    "48": "assets/library-48.png",
+    "128": "assets/library-128.png"
+  }
+}
