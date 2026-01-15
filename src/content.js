@@ -1,4 +1,8 @@
 // src/content.js
+function promisifiedWait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function markInCaptionzSite() {
   if (location.host === "pnl.dev" || location.host === "localhost:4100") {
     document.documentElement.setAttribute("data-captionz-ext", "true");
@@ -191,6 +195,40 @@ function markInCaptionzSite() {
     }
   }
 
+  function isCaptionsEnabled() {
+    try {
+      const player = document.getElementById("movie_player");
+      if (player && typeof player.getOption === "function") {
+        const track = player.getOption("captions", "track");
+        return (
+          track &&
+          (track.languageCode ||
+            (track.translationLanguage &&
+              track.translationLanguage.languageCode))
+        );
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  function sendVideoInfoOnly() {
+    if (!cachedVideoInfo) return;
+    console.log(
+      "[Captionz-ext] Captions not enabled/detected, sending video info only."
+    );
+    window.parent.postMessage(
+      {
+        source: "CAPTIONZ_EXTENSION",
+        payload: {
+          timestamp: Date.now(),
+          type: "video-info",
+          videoInfo: cachedVideoInfo,
+        },
+      },
+      "*"
+    );
+  }
+
   function processVideoDetails(details, fullData) {
     const thumbnails = details.thumbnail?.thumbnails || [];
     const snapshot =
@@ -225,6 +263,10 @@ function markInCaptionzSite() {
     };
 
     console.log("[Captionz-ext] Updated cached video info:", cachedVideoInfo);
+
+    if (!isCaptionsEnabled()) {
+      sendVideoInfoOnly();
+    }
   }
 
   function extractVideoInfoFromDOM() {
@@ -287,6 +329,9 @@ function markInCaptionzSite() {
         "[Captionz-ext] Updated cached video info from DOM:",
         cachedVideoInfo
       );
+      if (!isCaptionsEnabled()) {
+        sendVideoInfoOnly();
+      }
     } catch (e) {
       console.error("[Captionz-ext] DOM scraping failed", e);
     }
@@ -308,59 +353,74 @@ function markInCaptionzSite() {
     }
   });
 
-  function openAutoTranslatePanel() {
+  async function openAutoTranslatePanel() {
     const settingsBtn = document.querySelector(
       ".ytp-settings-button, .player-settings-icon"
     );
+    const captionsBtn = document.querySelector(
+      ".ytp-subtitles-button, .ytmClosedCaptioningButtonButton"
+    );
+    if (!isCaptionsEnabled()) {
+      // enable captions first
+      if (captionsBtn) {
+        captionsBtn.click();
+        await promisifiedWait(500);
+      } else {
+        showSignal(
+          "Please enable captions in the YouTube player to use Auto-translate.",
+          "goldenrod",
+          5
+        );
+        return;
+      }
+    }
     if (settingsBtn) {
       settingsBtn.click();
-      setTimeout(() => {
-        const menuItems = document.querySelectorAll(
+      await promisifiedWait(300);
+      const menuItems = document.querySelectorAll(
+        ".ytp-menuitem, .yt-list-item-view-model__container"
+      );
+      let subtitlesClicked = false;
+      for (const item of menuItems) {
+        const label = item.querySelector(
+          ".ytp-menuitem-label, .yt-list-item-view-model__text-wrapper"
+        );
+        if (
+          label &&
+          (label.textContent.includes("Subtitles") ||
+            label.textContent.includes("Captions") ||
+            label.textContent.includes("CC"))
+        ) {
+          item.click();
+          subtitlesClicked = true;
+          break;
+        }
+      }
+
+      if (subtitlesClicked) {
+        showSignal("Please select 'Auto-translate' in the menu.");
+        await promisifiedWait(300);
+        const subMenuItems = document.querySelectorAll(
           ".ytp-menuitem, .yt-list-item-view-model__container"
         );
-        let subtitlesClicked = false;
-        for (const item of menuItems) {
-          const label = item.querySelector(
-            ".ytp-menuitem-label, .yt-list-item-view-model__text-wrapper"
-          );
-          if (
-            label &&
-            (label.textContent.includes("Subtitles") ||
-              label.textContent.includes("Captions") ||
-              label.textContent.includes("CC"))
-          ) {
+        for (const item of subMenuItems) {
+          if (item.textContent.includes("Auto-translate")) {
+            item.style.outline = "2px solid green"; // Highlight
             item.click();
-            subtitlesClicked = true;
+            showSignal(
+              "Please select your desired language for Auto-translate."
+            );
             break;
           }
         }
-
-        if (subtitlesClicked) {
-          showSignal("Please select 'Auto-translate' in the menu.");
-          setTimeout(() => {
-            const subMenuItems = document.querySelectorAll(
-              ".ytp-menuitem, .yt-list-item-view-model__container"
-            );
-            for (const item of subMenuItems) {
-              if (item.textContent.includes("Auto-translate")) {
-                item.style.outline = "2px solid green"; // Highlight
-                item.click();
-                showSignal(
-                  "Please select your desired language for Auto-translate."
-                );
-                break;
-              }
-            }
-          }, 300);
-        } else {
-          showSignal(
-            "Please play the video and enable captions first.",
-            "goldenrod",
-            5
-          );
-          settingsBtn.click(); // Close settings
-        }
-      }, 300);
+      } else {
+        showSignal(
+          "Please play the video and enable captions first.",
+          "goldenrod",
+          5
+        );
+        settingsBtn.click(); // Close settings
+      }
     } else {
       showSignal(
         "Please enable captions in the YouTube player manually.",
