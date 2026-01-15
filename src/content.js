@@ -1,5 +1,12 @@
 // src/content.js
+function markInCaptionzSite() {
+  if (location.host === "pnl.dev" || location.host === "localhost:4100") {
+    document.documentElement.setAttribute("data-captionz-ext", "true");
+    document.documentElement.classList.add("captionz-ext-active");
+  }
+}
 (function () {
+  markInCaptionzSite();
   const isInIframe = window.location !== window.parent.location;
   if (!isInIframe) {
     return;
