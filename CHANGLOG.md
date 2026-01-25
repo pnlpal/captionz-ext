@@ -7,7 +7,6 @@
   - Option to disable the context menu item on YouTube
   - Option to hide the "Watch on Captionz" button on YouTube video pages
 - **Browser Action**: Quick access toolbar button to open the current YouTube video directly on Captionz
-- **Footer Links**: Options page now includes links to Programming N' Language community and Captionz website
 
 ### Fixed
 - Improved styling and positioning of the "Watch on Captionz" button on YouTube video pages
