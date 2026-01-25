@@ -3,6 +3,21 @@ const setYtb = async () => {
     return;
   }
   const sbtn = '<a href="" id="captionz-ytb-btn">Watch on Captionz</a>';
+  const btnStyle = `
+  #captionz-ytb-btn {
+    float: right;
+    font-weight: 700;
+    color: grey;
+    display: inline-block;
+    font-size: 15px;
+    text-decoration: none;
+    position: relative;
+    top: 5px;
+  }
+`;
+  const styleEl = document.createElement("style");
+  styleEl.textContent = btnStyle;
+  document.head.appendChild(styleEl);
 
   await utils.checkInTime(() => !!document.getElementById("above-the-fold"));
 
