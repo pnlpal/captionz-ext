@@ -22,6 +22,10 @@
       "js": ["src/utils.js", "src/inject-ytb.js"]
     }
   ],
+  "options_ui": {
+    "page": "src/options.html",
+    "open_in_tab": true
+  },
   "action": {
     "default_title": "Captionz - YouTube Dual Subtitles & A-B Repeat"
   },
