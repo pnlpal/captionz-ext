@@ -1,7 +1,7 @@
 import message from "./message.js";
 
 const openYtbOnCaptionz = (link) => {
-  const url = `https://pnl.dev/captionz?link=${encodeURIComponent(link)}`;
+  const url =  link ? `https://pnl.dev/captionz?link=${encodeURIComponent(link)}` : "https://pnl.dev/captionz";
   chrome.tabs.create({ url });
 };
 

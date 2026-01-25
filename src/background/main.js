@@ -1,7 +1,7 @@
 import setting from "./setting.js";
 import message from "./message.js";
 import contextMenu from "./contextMenu.js";
-import "./captionz.js";
+import { openYtbOnCaptionz } from "./captionz.js";
 
 const initPromises = (async function () {
   await setting.init();
@@ -37,3 +37,12 @@ chrome.contextMenus.onClicked.addListener(async function (info, tab) {
 chrome.runtime.setUninstallURL(
   "https://docs.google.com/forms/d/e/1FAIpQLSefvnQypm4gtmdSy2UlfRBC8ljyNwJMOxVoCg3N8NbFGPoyYw/viewform"
 );
+
+chrome.action.onClicked.addListener(async function (tab) {
+  await initPromises;
+  if (tab.url?.startsWith("https://www.youtube.com/watch") && tab.url.includes("v=")) {
+    openYtbOnCaptionz(tab.url);
+  } else {
+    openYtbOnCaptionz();
+  }
+});
